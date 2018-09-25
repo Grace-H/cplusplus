@@ -1,6 +1,5 @@
 #include <iostream>
 #include <cstring>
-#include <cctype>
 
 using namespace std;
 
@@ -9,9 +8,11 @@ void clearBoard(char** board);
 char turn(char** board, int* move, char player);
 void getMove(int* move, char player);
 char checkWin(char** board);
+
 const char X = 'X';
 const char O = 'O';
 const char tie = 'T';
+
 main(){
   char** board;
   board = new char*[3];
@@ -64,7 +65,7 @@ main(){
 
     //tell how many wins and ask to play again
     cout << "X wins: " << xWins << "\tO wins: " << oWins << "\tTies: " << tieWins << endl;
-    cout << "Would ou like to play again? 'y' or 'n'" << endl;
+    cout << "Would you like to play again? 'y' or 'n'" << endl;
     char playAgain = 'n';
     cin >> playAgain;
     if(playAgain == 'n'){
