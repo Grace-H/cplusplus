@@ -2,6 +2,8 @@
 #include <cstring>
 #include <cctype>
 #include <vector>
+#include <cmath>
+#include <cstdlib>
 
 using namespace std;
 
@@ -15,7 +17,7 @@ struct Student {
 //vector pointer as parameter for each
 void addS(vector<Student*>* students);
 void deleteS();
-void printS();
+void printS(vector<Student*>* students);
 
 int main(){
   char addStr[10] = "ADD";
@@ -53,33 +55,56 @@ int main(){
     } else {
       cout << "Sorry, did not recognize that command" << endl;
     }
-  }
-  //if ADD:
-  //if PRINT
-  //if DELETE
-  //if QUIT
-  
+  }  
   return 0;
 }
 
+//WORKING ON THIS
+void printS(vector<Student*>* students){
+  for(vector<Student*>::iterator it = students->begin(); it != students->end(); it++){
+    cout << (*it)->firstN << " " << (*it)->lastN << endl;
+    cout << "ID: " << (*it)->id << endl;
+    cout << "GPA: " << (*it)->gpa << endl;
+  }
+}
 void addS(vector<Student*>* students){
   Student student;
   char input[20];
+
+  //get a valid first name
   cout << "First name: " << endl;
   cin.get(input, 20);
   cin.get();
   strcpy(student.firstN, input);
+
+  //get a valid last name
   cout << "Last name: " << endl;
   cin.get(input, 20);
   cin.get();
   strcpy(student.lastN, input);
-  int id;
+
+  //get a valid student ID
+  bool valid = true;
   cout << "Student ID: " << endl;
-  cin >> id;
+  int id = 0;
+  //do {
+  //id = 0;
+  cin.get(input, 20);
+  cin.get();
+  id = atoi(input);
   student.id = id;
-  float gpa;
+
+  //get a valid gpa
+  float gpa = 0;
   cout << "GPA: " << endl;
-  cin >> gpa;
+  cin.get(input, 20);
+  cin.get(); 
+  gpa = atof(input);
   student.gpa = gpa;
+
+  //add student to vector
+  Student* stuPtr = &student;
+  students->push_back(stuPtr);
+  cout << students->size() << endl;
   cout << student.firstN << student.lastN << student.gpa << student.id << endl;
 }
