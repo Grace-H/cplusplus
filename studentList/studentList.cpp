@@ -27,8 +27,8 @@ int main(){
 
 
   //student vector
-  vector<Student*> stuVector;
-  vector<Student*>* students = &stuVector;
+  vector<Student*>* students = new vector<Student*>;
+  //vector<Student*>* students = &stuVector;
   //while still running
   cout << "Welcome to student list." << endl;
 
@@ -48,6 +48,7 @@ int main(){
     } else if (strcmp(input, deleteStr) == 0){
       cout << "Deleted Student" << endl;
     } else if (strcmp(input, printStr) == 0){
+      printS(students);
       cout << "Printed students" << endl;
     } else if (strcmp(input, quitStr) == 0){
       stillRunning = false;
@@ -61,27 +62,31 @@ int main(){
 
 //WORKING ON THIS
 void printS(vector<Student*>* students){
-  for(vector<Student*>::iterator it = students->begin(); it != students->end(); it++){
+  cout << students->size() << endl;
+  //cout << students->begin() << endl;
+  //cout << students->end() << endl;
+  for(vector<Student*>::iterator it = students->begin(); it != students->end(); ++it){
+    cout << "it: " << *it << endl;
     cout << (*it)->firstN << " " << (*it)->lastN << endl;
     cout << "ID: " << (*it)->id << endl;
     cout << "GPA: " << (*it)->gpa << endl;
   }
 }
 void addS(vector<Student*>* students){
-  Student student;
+  Student *student = new Student;
   char input[20];
 
   //get a valid first name
   cout << "First name: " << endl;
   cin.get(input, 20);
   cin.get();
-  strcpy(student.firstN, input);
+  strcpy(student->firstN, input);
 
   //get a valid last name
   cout << "Last name: " << endl;
   cin.get(input, 20);
   cin.get();
-  strcpy(student.lastN, input);
+  strcpy(student->lastN, input);
 
   //get a valid student ID
   bool valid = true;
@@ -92,7 +97,7 @@ void addS(vector<Student*>* students){
   cin.get(input, 20);
   cin.get();
   id = atoi(input);
-  student.id = id;
+  student->id = id;
 
   //get a valid gpa
   float gpa = 0;
@@ -100,11 +105,13 @@ void addS(vector<Student*>* students){
   cin.get(input, 20);
   cin.get(); 
   gpa = atof(input);
-  student.gpa = gpa;
+  student->gpa = gpa;
 
   //add student to vector
-  Student* stuPtr = &student;
-  students->push_back(stuPtr);
+  //Student* stuPtr = &student;
+  students->push_back(student);
   cout << students->size() << endl;
-  cout << student.firstN << student.lastN << student.gpa << student.id << endl;
+  cout << student->firstN << student->lastN << student->gpa << student->id << endl;
+
+  printS(students);
 }
