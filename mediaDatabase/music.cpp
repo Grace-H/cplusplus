@@ -1,10 +1,11 @@
 #include <iostream>
+#include <cstring>
 #include "music.h"
 
 using namespace std;
 
-Music::Music(char* newtitle[], int* newyear, char* newartist[], char* newpublisher[], int* newduration){
-  title = newtitle;
+Music::Music(char newtitle[256], int newyear, char newartist[256], char newpublisher[256], int newduration){
+  strcpy(title, newtitle);
   year = newyear;
   artist = newartist;
   publisher = newpublisher;
@@ -20,7 +21,7 @@ char* Music::getTitle(){
   return title;
 }
 
-int* Music::getYear(){
+int Music::getYear(){
   return year;
 }
 
@@ -32,6 +33,6 @@ char* Music::getPublisher(){
   return publisher;
 }
 
-int* Music::getDuration(){
+int Music::getDuration(){
   return duration;
 }
