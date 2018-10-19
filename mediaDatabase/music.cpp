@@ -4,11 +4,14 @@
 
 using namespace std;
 
-Music::Music(char newtitle[256], int newyear, char newartist[256], char newpublisher[256], int newduration){
-  strcpy(title, newtitle);
+Music::Music(char* newtitle, int* newyear, char* newartist, char* newpublisher, int* newduration){
+  cout << newtitle << *newyear << newartist << newpublisher << *newduration << endl;
+  strcpy(title, newtitle, 256);
+  cout << "added title" << endl;
   year = newyear;
-  artist = newartist;
-  publisher = newpublisher;
+  cout << "added year" << endl;
+  strcpy(artist, newartist);
+  strcpy(publisher, newpublisher);
   duration = newduration;
   type = 2;
 }
@@ -22,7 +25,7 @@ char* Music::getTitle(){
 }
 
 int Music::getYear(){
-  return year;
+  return *year;
 }
 
 char* Music::getArtist(){
@@ -34,5 +37,5 @@ char* Music::getPublisher(){
 }
 
 int Music::getDuration(){
-  return duration;
+  return *duration;
 }
