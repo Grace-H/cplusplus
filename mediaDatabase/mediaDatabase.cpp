@@ -5,10 +5,22 @@
 
 using namespace std;
 
+void addMusic();
+void addMovie();
+void addGame();
+
 int main(){
+  addMusic();
+  return 0;
+}
+
+void addMusic(){
   char* title = new char[256];
   cin.get(title, 256);
   cin.get();
+  //char** titleAddress = &title;
+  //cout << titleAddress << endl;
+  //title[255] = '\0';
   int* year = new int;
   char* input = new char[256];
   cin.get(input, 256);
@@ -29,5 +41,11 @@ int main(){
   Music* song = new Music(title, year, artist, publisher, duration);
   cout << "created song" << endl;
   cout << "title: " << song->getTitle() << endl;
-  return 0;
+}
+
+
+void addMovie(){
+}
+
+void addGame(){
 }
