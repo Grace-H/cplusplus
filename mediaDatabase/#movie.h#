@@ -14,7 +14,7 @@ class Movie {
   int getRating();
  private:
   char* title;
-  char* director,
+  char* director;
   int* year;
   int* duration;
   int* rating;

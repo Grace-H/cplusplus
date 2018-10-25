@@ -1,6 +1,8 @@
 #include <iostream>
 #include <cstring>
 #include <cstdlib>
+#include <cctype>
+#include "movie.h"
 #include "music.h"
 
 using namespace std;
@@ -10,6 +12,48 @@ void addMovie();
 void addGame();
 
 int main(){
+  bool stillPlaying = true;
+  char input[256];
+
+  char deleteStr[20] = "DELETE";
+  char addStr[20] = "ADD";
+  char searchStr[20] = "SEARCH";
+  char quitStr[20] = "QUIT";
+
+  char movieStr[20] = "MOVIE";
+  char musicStr[20] = "MUSIC";
+  char gameStr[20] = "GAME";
+  
+  while(stillPlaying){
+    cout << "Ready for command." << endl;
+    cin.get(input, 256);
+    cin.get();
+
+    //make all caps
+    for(int i = 0; i < 256; i++){
+      input[i] = toupper(input[i]);
+    }
+
+    if(strcmp(input, addStr[20]) == 0){
+      cout << "'MOVIE' 'MUSIC' or 'GAME'?" << endl;
+      for(int i = 0; i < 256; i++){
+	input[i] = toupper(input[i]);
+      }
+      if(strcmp(input, movieStr) == 0){
+      }else if(strcmp(input, musicStr) == 0){
+	addMusic();
+      }else if(strcmp(input, gameStr) == 0){
+      }else{
+	cout << "Not a type of media" << endl;
+      }
+    }else if (strcmp(input, deleteStr) == 0){
+    }else if (strcmp(input, searchStr) == 0){
+    }else if (strcmp(input, quitStr) == 0){
+    }else{
+    }
+      
+
+  }
   addMusic();
   return 0;
 }

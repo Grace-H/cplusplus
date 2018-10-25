@@ -10,6 +10,8 @@ Music::Music(char* newtitle, int* newyear, char* newartist, char* newpublisher, 
   cout << "added title" << endl;
   year = newyear;
   cout << "added year" << endl;
+  artist = newartist;
+  publisher = newpublisher;
   duration = newduration;
   type = 2;
 }
