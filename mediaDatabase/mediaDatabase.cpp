@@ -40,6 +40,7 @@ int main(){
 	input[i] = toupper(input[i]);
       }
       if(strcmp(input, movieStr) == 0){
+	addMovie();
       }else if(strcmp(input, musicStr) == 0){
 	addMusic();
       }else if(strcmp(input, gameStr) == 0){
@@ -54,7 +55,6 @@ int main(){
       
 
   }
-  addMusic();
   return 0;
 }
 
@@ -89,6 +89,29 @@ void addMusic(){
 
 
 void addMovie(){
+  char* title = new char[256];
+  cin.get(title, 256);
+  cin.get();
+  int* year = new int;
+  char* input = new char[256];
+  cin.get(input, 256);
+  cin.get();
+  *year = atoi(input);
+  char* director = new char[256];
+  cin.get(director, 256);
+  cin.get();
+  char* publisher = new char[256];
+  cin.get(publisher, 256);
+  cin.get();
+  int* duration = new int;
+  cin.get(input, 256);
+  cin.get();
+  *duration = atoi(input);
+  cout << title << *year << artist << publisher << *duration << endl;
+  cout << "collected all info" << endl;
+  Music* song = new Music(title, year, artist, publisher, duration);
+  cout << "created song" << endl;
+  cout << "title: " << song->getTitle() << endl;
 }
 
 void addGame(){
