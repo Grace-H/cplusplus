@@ -108,7 +108,7 @@ void deleteS(vector<Student*>* students){
     students->erase(student);
   }
   else{ //else tell user no student matched
-    cout << "No matching student" << end1;
+    cout << "No matching student" << endl;
   }
 }
 
