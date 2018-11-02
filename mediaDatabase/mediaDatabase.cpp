@@ -4,6 +4,7 @@
 #include <cctype>
 #include "movie.h"
 #include "music.h"
+#include "media.h"
 
 using namespace std;
 

@@ -1,9 +1,10 @@
 #include <iostream>
 #include <cstring>
+#include "media.h"
 
 using namespace std;
 
-class Music {
+class Music : public Media {
  public:
   Music(char* newtitle, int* newyear, char* newartist, char* newpublisher, int* newduration);
   int getType();
