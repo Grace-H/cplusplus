@@ -4,13 +4,14 @@
 
 using namespace std;
 
-Media::Media(char* newtitle, int* newyear){
+Media::Media(char* newtitle, int* newyear, int newtype){
   title = newtitle;
   year = newyear;
+  type = newtype;
 }
 
 int Media::getType(){
-  return *type;
+  return type;
 }
 
 char* Media::getTitle(){

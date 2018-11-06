@@ -2,9 +2,9 @@
 #include <cstring>
 #include <cstdlib>
 #include <cctype>
-#include "movie.h"
-#include "music.h"
 #include "media.h"
+//#include "movie.h"
+#include "music.h"
 
 using namespace std;
 
@@ -35,13 +35,13 @@ int main(){
       input[i] = toupper(input[i]);
     }
 
-    if(strcmp(input, addStr[20]) == 0){
+    if(strcmp(input, addStr) == 0){
       cout << "'MOVIE' 'MUSIC' or 'GAME'?" << endl;
       for(int i = 0; i < 256; i++){
 	input[i] = toupper(input[i]);
       }
       if(strcmp(input, movieStr) == 0){
-	addMovie();
+	//addMovie();
       }else if(strcmp(input, musicStr) == 0){
 	addMusic();
       }else if(strcmp(input, gameStr) == 0){
@@ -85,10 +85,10 @@ void addMusic(){
   cout << "collected all info" << endl;
   Music* song = new Music(title, year, artist, publisher, duration);
   cout << "created song" << endl;
-  cout << "title: " << song->getTitle() << endl;
+  //cout << "title: " << song->getTitle() << endl;
 }
 
-
+/*
 void addMovie(){
   char* title = new char[256];
   cin.get(title, 256);
@@ -117,3 +117,4 @@ void addMovie(){
 
 void addGame(){
 }
+*/

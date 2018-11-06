@@ -4,29 +4,29 @@
 
 using namespace std;
 
-Music::Music(char* newtitle, int* newyear, char* newartist, char* newpublisher, int* newduration){
+Music::Music(char* newtitle, int* newyear, char* newartist, char* newpublisher, int* newduration) : Media(newtitle, newyear, 2){
   //cout << newtitle << *newyear << newartist << newpublisher << *newduration << endl;  
-  title = newtitle;
+  //title = newtitle;
   cout << "added title" << endl;
-  year = newyear;
+  //year = newyear;
   cout << "added year" << endl;
   artist = newartist;
   publisher = newpublisher;
   duration = newduration;
-  type = 2;
+  //type = 2;
 }
 
-int Music::getType(){
-  return type;
-}
+//int Music::getType(){
+//return type;
+//}
 
-char* Music::getTitle(){
-  return title;
-}
+//char* Music::getTitle(){
+//return title;
+//}
 
-int Music::getYear(){
-  return *year;
-}
+//int Music::getYear(){
+//return *year;
+//}
 
 char* Music::getArtist(){
   return artist;

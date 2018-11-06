@@ -1,4 +1,4 @@
-#include <iostream>
+/*#include <iostream>
 #include <cstring>
 #include "movie.h"
 
@@ -39,3 +39,4 @@ int Movie::getDuration(){
 int Movie::getRating(){
   return *rating;
 }
+*/
