@@ -10,11 +10,11 @@ class Music : public Media {
  public:
   Music(char* newtitle, int* newyear, char* newartist, char* newpublisher, int* newduration);
   //int getType();
-  char* getTitle();
-  int getYear();
-  char* getArtist();
-  char* getPublisher();
-  int getDuration();
+  //virtual char* getTitle();
+  //virtual int getYear();
+  virtual char* getArtist();
+  virtual char* getPublisher();
+  virtual int getDuration();
  private:
   char* artist;
   char* publisher;

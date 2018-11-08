@@ -9,9 +9,9 @@ using namespace std;
 class Media{
  public:
   Media(char* newtitle, int* newyear, int newtype);
-  int getType();
-  char* getTitle();
-  int getYear();
+  virtual int getType();
+  virtual char* getTitle();
+  virtual int getYear();
  private:
   char* title;
   int* year;
