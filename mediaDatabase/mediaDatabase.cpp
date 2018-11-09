@@ -92,11 +92,15 @@ void searchMedia(vector<Media*>* media){
     title[i] = toupper(input[i]);
   }
   int year = atoi(input);
-
+  //cout << "Title: " << title << endl;
   for(vector<Media*>::iterator it = media->begin(); it != media->end(); it++){
-    if(strcmp(input, (*it)->getTitle())){
+    //cout << (*it)->getTitle() << endl;
+    char* itTitle = (*it)->getTitle();
+    for(int i = 0; i < strlen(itTitle); i++){
+      itTitle[i] = toupper(itTitle[i]);
+    }
+    if(strcmp(input, itTitle)){
       printObj(*it);
-      cout << "Match!" << endl;
     }
     else if(year == (*it)->getYear()){
       printObj(*it);
