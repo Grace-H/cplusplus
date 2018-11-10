@@ -9,12 +9,9 @@ using namespace std;
 class Music : public Media {
  public:
   Music(char* newtitle, int* newyear, char* newartist, char* newpublisher, int* newduration);
-  //int getType();
-  //virtual char* getTitle();
-  //virtual int getYear();
-  virtual char* getArtist();
   virtual char* getPublisher();
   virtual int getDuration();
+  virtual char* getArtist();
  private:
   char* artist;
   char* publisher;
