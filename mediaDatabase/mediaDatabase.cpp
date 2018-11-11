@@ -118,28 +118,34 @@ void searchMedia(vector<Media*>* media){
     title[i] = toupper(input[i]);
   }
   int year = atoi(input);
-  cout << year << endl;
+  cout << "Title entered: " << title << endl;
+  cout << "Year entered: " << year << endl;
   //cout << "Title: " << title << endl;
   bool anyFound = false; //tracks if any are found so if none are user can be informed  
   for(vector<Media*>::iterator it = media->begin(); it != media->end(); it++){
     //cout << (*it)->getTitle() << endl;
     char itTitle[256];
-    cout << itTitle << endl;
+    //cout << "Item title: " << itTitle << endl;
     strcpy(itTitle, (*it)->getTitle());
     for(int i = 0; i < strlen(itTitle); i++){
       itTitle[i] = toupper(itTitle[i]);
     }
-    cout << itTitle << endl;
-    cout << title << endl;
-    if(strcmp(title, itTitle) != 0){
+    cout << "Item title: " << itTitle << endl;
+    cout << "Entered title: " << title << endl;
+    cout << "char[5]: " << itTitle[5] << ", " << title[5] << endl;
+    cout << "Length itTitle: " << strlen(itTitle) << endl;
+    cout << "Length title: " << strlen(title) << endl;
+    cout << "They are: " << strncmp(title, itTitle, strlen(itTitle)) << endl;
+    if(strncmp(title, itTitle, strlen(itTitle)) == 0){
       if (!anyFound){
 	cout << "Match(es) found: " << endl;
       }
-	printObj(*it);
-	anyFound = true;
+      cout << "Name match" << endl;
+      printObj(*it);
+      anyFound = true;
     }
     else if(year == (*it)->getYear()){
-      cout << (*it)->getYear();      
+      cout << "Year match: " << (*it)->getYear() << endl;      
       printObj(*it);
       anyFound = true;
     }
@@ -148,7 +154,9 @@ void searchMedia(vector<Media*>* media){
    cout << "No matching media." << endl;
    cout << endl;
  }
+ // delete [] title;
 }
+
 void addMusic(vector<Media*>* media){
   //get title  
   cout << "Enter the title: " << endl;

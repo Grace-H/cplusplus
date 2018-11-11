@@ -4,8 +4,9 @@
 #include <cstdlib>
 #include <cctype>
 #include "media.h"
-//#include "movie.h"
+#include "movie.h"
 #include "music.h"
+#include "videoGame.h"
 
 using namespace std;
 
@@ -13,8 +14,8 @@ void printMedia(vector<Media*>* media);
 void printObj(Media* media);
 void searchMedia(vector<Media*>* media);
 void addMusic(vector<Media*>* media);
-void addMovie();
-void addGame();
+void addMovie(vector<Media*>* media);
+void addGame(vector<Media*>* media);
 
 int main(){
 
@@ -50,7 +51,8 @@ int main(){
 	input[i] = toupper(input[i]);
       }
       if(strcmp(input, movieStr) == 0){
-	//addMovie();
+	addMovie(media);
+	printMedia(media);
       }else if(strcmp(input, musicStr) == 0){
 	addMusic(media);
 	printMedia(media);
@@ -76,95 +78,168 @@ void printMedia(vector<Media*>* media){
 
 void printObj(Media* media){
   int type = media->getType();
-  if(type ==2){
+  if (type == 1) {
+    Game* game = (Game*)(media);
+    cout << "Type: Video Game" << endl;
+    cout << "Title: " << game->getTitle() << endl;
+    cout << "Publisher: " << game->getPublisher() << endl;
+    cout << "Year: " << game->getYear() << endl;
+    cout << "Rating: " << game->getRating() << endl;
+    cout << endl;
+  } else if(type == 2){
     Music* song = (Music*)(media);
-    cout << "Movie: " << song->getTitle() << ", " << song->getArtist() << ", " << song->getYear() << ", " << song->getPublisher() << ", " << song->getDuration() << "min" << endl;
+    cout << "Type: Music" << endl;
+    cout << "Title: " << song->getTitle() << endl;
+    cout << "Artist: " << song->getArtist() << endl;
+    cout << "Year: " << song->getYear() << endl;
+    cout << "Publisher: " << song->getPublisher() << endl;
+    cout << "Duration: " << song->getDuration() << " min" << endl;
+    cout << endl;
+  } else if (type == 3) {
+    Movie* movie = (Movie*)(media);
+    cout << "Type: Movie" << endl;
+    cout << "Title: " << movie->getTitle() << endl;
+    cout << "Year: " << movie->getYear() << endl;
+    cout << "Director: " << movie->getDirector() << endl;
+    cout << "Duration: " << movie->getDuration() << endl;
+    cout << "Rating: " << movie->getRating() << endl;
+    cout << endl;
   }
 }
 
 void searchMedia(vector<Media*>* media){
   char input[256];
-  cout << "Enter a title or year" << endl;
+  cout << "Enter a title or year:" << endl;
   cin.get(input, 256);
   cin.get();
+  cout << endl;
   char title[256];
   for(int i = 0; i < strlen(input); i++){
     title[i] = toupper(input[i]);
   }
   int year = atoi(input);
+  cout << year << endl;
   //cout << "Title: " << title << endl;
+  bool anyFound = false; //tracks if any are found so if none are user can be informed  
   for(vector<Media*>::iterator it = media->begin(); it != media->end(); it++){
     //cout << (*it)->getTitle() << endl;
-    char* itTitle = (*it)->getTitle();
+    char itTitle[256];
+    cout << itTitle << endl;
+    strcpy(itTitle, (*it)->getTitle());
     for(int i = 0; i < strlen(itTitle); i++){
       itTitle[i] = toupper(itTitle[i]);
     }
-    if(strcmp(input, itTitle)){
-      printObj(*it);
+    cout << itTitle << endl;
+    cout << title << endl;
+    if(strcmp(title, itTitle) != 0){
+      if (!anyFound){
+	cout << "Match(es) found: " << endl;
+      }
+	printObj(*it);
+	anyFound = true;
     }
     else if(year == (*it)->getYear()){
+      cout << (*it)->getYear();      
       printObj(*it);
+      anyFound = true;
     }
   }
+ if(!anyFound){
+   cout << "No matching media." << endl;
+   cout << endl;
+ }
 }
 void addMusic(vector<Media*>* media){
+  //get title  
+  cout << "Enter the title: " << endl;
   char* title = new char[256];
   cin.get(title, 256);
   cin.get();
-  //char** titleAddress = &title;
-  //cout << titleAddress << endl;
-  //title[255] = '\0';
+
+  //get year
+  cout << "Enter the year: " << endl;
   int* year = new int;
   char* input = new char[256];
   cin.get(input, 256);
   cin.get();
   *year = atoi(input);
+
+  //get artist
+  cout << "Enter the artist: " << endl;
   char* artist = new char[256];
   cin.get(artist, 256);
   cin.get();
+
+  //get publisher
+  cout << "Enter the publisher: " << endl;
   char* publisher = new char[256];
   cin.get(publisher, 256);
   cin.get();
+
+  //get duration
+  cout << "Enter the duration (minutes): " << endl;
   int* duration = new int;
   cin.get(input, 256);
   cin.get();
   *duration = atoi(input);
-  cout << title << *year << artist << publisher << *duration << endl;
-  cout << "collected all info" << endl;
+
+  //create Music object and add to Media vector
+  //  cout << title << *year << artist << publisher << *duration << endl;
+  //  cout << "collected all info" << endl;
   Music* song = new Music(title, year, artist, publisher, duration);
-  cout << "created song" << endl;
-  cout << "type" << song->getType() << endl;
-  cout << "title: " << song->getTitle() << endl;
+  //  cout << "created song" << endl;
+  //  cout << "type" << song->getType() << endl;
+  //  cout << "title: " << song->getTitle() << endl;
   media->push_back(song);
+  cout << endl;
 }
 
-/*
-void addMovie(){
+void addMovie(vector<Media*>* media){
+  //get title
+  cout << "Enter the title: " << endl;
   char* title = new char[256];
   cin.get(title, 256);
   cin.get();
+
+  //get year
+  cout << "Enter the year: " << endl;
   int* year = new int;
   char* input = new char[256];
   cin.get(input, 256);
   cin.get();
   *year = atoi(input);
+
+  //get director
+  cout << "Enter the director: " << endl;
   char* director = new char[256];
   cin.get(director, 256);
   cin.get();
-  char* publisher = new char[256];
-  cin.get(publisher, 256);
+  
+  //get rating
+  cout << "Enter the rating (X/5): " << endl;
+  int* rating = new int;
+  cin.get(input, 256);
   cin.get();
+  *rating = atoi(input);
+
+  //get duration
+  cout << "Enter the duration (minutes): " << endl;
   int* duration = new int;
   cin.get(input, 256);
   cin.get();
   *duration = atoi(input);
-  cout << title << *year << artist << publisher << *duration << endl;
-  cout << "collected all info" << endl;
-  Music* song = new Music(title, year, artist, publisher, duration);
-  cout << "created song" << endl;
-  cout << "title: " << song->getTitle() << endl;
+
+  //create Movie object and add to Media vector
+  //  cout << title << *year << artist << publisher << *duration << endl;
+  //cout << "collected all info" << endl;
+  Movie* movie = new Movie(title, director, year, duration, rating);
+  //cout << "created song" << endl;
+  //cout << "title: " << song->getTitle() << endl;
+  media->push_back(movie);
+  cout << endl;
 }
 
-void addGame(){
+void addGame(vector<Media*>* media){
+
 }
-*/
+
