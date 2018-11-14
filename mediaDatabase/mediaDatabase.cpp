@@ -34,7 +34,7 @@ int main(){
   char gameStr[20] = "GAME";
   
   while(stillPlaying){
-    cout << "Ready for command." << endl;
+    cout << "Ready for command. 'DELETE' 'ADD' 'SEARCH' 'QUIT'" << endl;
     cin.get(input, 256);
     cin.get();
     
@@ -43,39 +43,56 @@ int main(){
       input[i] = toupper(input[i]);
     }
 
+    //if add
     if(strcmp(input, addStr) == 0){
+      //get type of media to add
       cout << "'MOVIE' 'MUSIC' or 'GAME'?" << endl;
       cin.get(input, 256);
       cin.get();
       for(int i = 0; i < 256; i++){
 	input[i] = toupper(input[i]);
       }
+      //if movie
       if(strcmp(input, movieStr) == 0){
 	addMovie(media);
-	printMedia(media);
+	//printMedia(media);
+      //if music
       }else if(strcmp(input, musicStr) == 0){
 	addMusic(media);
-	printMedia(media);
+	//printMedia(media);
+      //if videogame
       }else if(strcmp(input, gameStr) == 0){
+	addGame(media);
       }else{
 	cout << "Not a type of media" << endl;
       }
+
+    //if delete      
     }else if (strcmp(input, deleteStr) == 0){
+      deleteMedia(media);
+    //if search
     }else if (strcmp(input, searchStr) == 0){
       searchMedia(media);
+
+    //iif quit
     }else if (strcmp(input, quitStr) == 0){
+      quit(media);
+    //command not recognized
     }else{
+      cout << "Not a command." << endl;
     }
   }
   return 0;
 }
 
+//prints out all media objects
 void printMedia(vector<Media*>* media){
   for(vector<Media*>::iterator it = media->begin(); it != media->end(); ++it){
     cout << (*it)->getTitle() << (*it)->getYear() << (*it)->getType() << endl;
   }
 }
 
+//prints out data associated with a media object passed in
 void printObj(Media* media){
   int type = media->getType();
   if (type == 1) {
@@ -107,41 +124,33 @@ void printObj(Media* media){
   }
 }
 
+//searchMedia: takes a search term and tried to find matching media objects
 void searchMedia(vector<Media*>* media){
+  //ask for search term
   char input[256];
   cout << "Enter a title or year:" << endl;
   cin.get(input, 256);
   cin.get();
   cout << endl;
   char title[256];
-  cout << strlen(input) << endl;
-  cout << input[strlen(input)];
-  for(int i = 0; i < strlen(input) - 1; i++){
+  //capitalize each char and add to array for title
+  for(int i = 0; i < strlen(input); i++){
     title[i] = toupper(input[i]);
   }
   title[strlen(input)] = '\0';
-  cout << title[strlen(input)] << endl;
-  //cout << strlen(input) << endl;
-  //cout << strlen(title) << endl;
+
+  //also convert it to int in case it's the year
   int year = atoi(input);
-  //cout << "Title entered: " << title << endl;
-  //cout << "Year entered: " << year << endl;
-  //cout << "Title: " << title << endl;
+  
   bool anyFound = false; //tracks if any are found so if none are user can be informed  
   for(vector<Media*>::iterator it = media->begin(); it != media->end(); it++){
-    //cout << (*it)->getTitle() << endl;
+    //get and capitalize the title of media object
     char itTitle[256];
-    //cout << "Item title: " << itTitle << endl;
     strcpy(itTitle, (*it)->getTitle());
     for(int i = 0; i < strlen(itTitle); i++){
       itTitle[i] = toupper(itTitle[i]);
     }
-    cout << "Item title: " << itTitle << endl;
-    cout << "Entered title: " << title << endl;
-    //cout << "char[5]: " << itTitle[5] << ", " << title[5] << endl;
-    cout << "Length itTitle: " << strlen(itTitle) << endl;
-    cout << "Length title: " << strlen(title) << endl;
-    cout << "They are: " << strcmp(title, itTitle) << endl;
+    //check for name match
     if(strcmp(title, itTitle) == 0){
       if (!anyFound){
 	cout << "Match(es) found: " << endl;
@@ -150,16 +159,22 @@ void searchMedia(vector<Media*>* media){
       printObj(*it);
       anyFound = true;
     }
+    //check for year match
     else if(year == (*it)->getYear()){
+      if (!anyFound){
+	cout << "Match(es) found: " << endl;
+      }
       //cout << "Year match: " << (*it)->getYear() << endl;      
       printObj(*it);
       anyFound = true;
     }
   }
- if(!anyFound){
-   cout << "No matching media." << endl;
-   cout << endl;
- }
+  
+  //tell user if none are found
+  if(!anyFound){
+    cout << "No matching media." << endl;
+    cout << endl;
+  }
 }
 
 void addMusic(vector<Media*>* media){
@@ -197,12 +212,7 @@ void addMusic(vector<Media*>* media){
   *duration = atoi(input);
 
   //create Music object and add to Media vector
-  //  cout << title << *year << artist << publisher << *duration << endl;
-  //  cout << "collected all info" << endl;
   Music* song = new Music(title, year, artist, publisher, duration);
-  //  cout << "created song" << endl;
-  //  cout << "type" << song->getType() << endl;
-  //  cout << "title: " << song->getTitle() << endl;
   media->push_back(song);
   cout << endl;
 }
@@ -241,18 +251,44 @@ void addMovie(vector<Media*>* media){
   cin.get(input, 256);
   cin.get();
   *duration = atoi(input);
-
+  
   //create Movie object and add to Media vector
-  //  cout << title << *year << artist << publisher << *duration << endl;
-  //cout << "collected all info" << endl;
   Movie* movie = new Movie(title, director, year, duration, rating);
-  //cout << "created song" << endl;
-  //cout << "title: " << song->getTitle() << endl;
   media->push_back(movie);
   cout << endl;
 }
 
 void addGame(vector<Media*>* media){
+  //get title
+  char* title = new char[256];
+  cout << "Enter the title: " << endl;
+  cin.get(title, 256);
+  cin.get();
 
+  //get year
+  int* year = new int;
+  char input[256];
+  cout << "Enter the year: " << endl;
+  cin.get(input, 256);
+  cin.get();
+  *year = atoi(input);
+
+  //get publisher
+  char* publisher = new char[256];
+  cout << "Enter the publisher: " << endl;
+  cin.get(publisher, 256);
+  cin.get();
+
+  //get rating
+  int* rating = new int;
+  cout << "Enter the rating (X/5): " << endl;
+  cin.get(input, 256);
+  cin.get();
+  *rating = atoi(input);
+
+  //create and add game to vector
+  Game* game = new Game(title, year, publisher, rating);
+  media->push_back(game);
+  cout << endl;
 }
 
