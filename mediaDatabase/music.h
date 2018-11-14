@@ -9,6 +9,7 @@ using namespace std;
 class Music : public Media {
  public:
   Music(char* newtitle, int* newyear, char* newartist, char* newpublisher, int* newduration);
+  ~Music();
   virtual char* getPublisher();
   virtual int getDuration();
   virtual char* getArtist();

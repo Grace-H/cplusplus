@@ -12,6 +12,8 @@ using namespace std;
 
 void printMedia(vector<Media*>* media);
 void printObj(Media* media);
+void quit(vector<Media*>* media);
+void deleteMedia(vector<Media*>* media);
 void searchMedia(vector<Media*>* media);
 void addMusic(vector<Media*>* media);
 void addMovie(vector<Media*>* media);
@@ -70,6 +72,7 @@ int main(){
     //if delete      
     }else if (strcmp(input, deleteStr) == 0){
       deleteMedia(media);
+
     //if search
     }else if (strcmp(input, searchStr) == 0){
       searchMedia(media);
@@ -77,7 +80,8 @@ int main(){
     //iif quit
     }else if (strcmp(input, quitStr) == 0){
       quit(media);
-    //command not recognized
+
+      //command not recognized
     }else{
       cout << "Not a command." << endl;
     }
@@ -122,6 +126,14 @@ void printObj(Media* media){
     cout << "Rating: " << movie->getRating() << endl;
     cout << endl;
   }
+}
+
+void quit(vector<Media*>* media){
+
+}
+
+void deleteMedia(vector<Media*>* media){
+
 }
 
 //searchMedia: takes a search term and tried to find matching media objects
