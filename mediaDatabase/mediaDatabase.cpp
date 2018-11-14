@@ -114,12 +114,18 @@ void searchMedia(vector<Media*>* media){
   cin.get();
   cout << endl;
   char title[256];
-  for(int i = 0; i < strlen(input); i++){
+  cout << strlen(input) << endl;
+  cout << input[strlen(input)];
+  for(int i = 0; i < strlen(input) - 1; i++){
     title[i] = toupper(input[i]);
   }
+  title[strlen(input)] = '\0';
+  cout << title[strlen(input)] << endl;
+  //cout << strlen(input) << endl;
+  //cout << strlen(title) << endl;
   int year = atoi(input);
-  cout << "Title entered: " << title << endl;
-  cout << "Year entered: " << year << endl;
+  //cout << "Title entered: " << title << endl;
+  //cout << "Year entered: " << year << endl;
   //cout << "Title: " << title << endl;
   bool anyFound = false; //tracks if any are found so if none are user can be informed  
   for(vector<Media*>::iterator it = media->begin(); it != media->end(); it++){
@@ -132,20 +138,20 @@ void searchMedia(vector<Media*>* media){
     }
     cout << "Item title: " << itTitle << endl;
     cout << "Entered title: " << title << endl;
-    cout << "char[5]: " << itTitle[5] << ", " << title[5] << endl;
+    //cout << "char[5]: " << itTitle[5] << ", " << title[5] << endl;
     cout << "Length itTitle: " << strlen(itTitle) << endl;
     cout << "Length title: " << strlen(title) << endl;
-    cout << "They are: " << strncmp(title, itTitle, strlen(itTitle)) << endl;
-    if(strncmp(title, itTitle, strlen(itTitle)) == 0){
+    cout << "They are: " << strcmp(title, itTitle) << endl;
+    if(strcmp(title, itTitle) == 0){
       if (!anyFound){
 	cout << "Match(es) found: " << endl;
       }
-      cout << "Name match" << endl;
+      //cout << "Name match" << endl;
       printObj(*it);
       anyFound = true;
     }
     else if(year == (*it)->getYear()){
-      cout << "Year match: " << (*it)->getYear() << endl;      
+      //cout << "Year match: " << (*it)->getYear() << endl;      
       printObj(*it);
       anyFound = true;
     }
@@ -154,7 +160,6 @@ void searchMedia(vector<Media*>* media){
    cout << "No matching media." << endl;
    cout << endl;
  }
- // delete [] title;
 }
 
 void addMusic(vector<Media*>* media){
