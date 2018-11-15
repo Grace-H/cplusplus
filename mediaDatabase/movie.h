@@ -1,3 +1,7 @@
+//header file for class Movie
+//Author: Grace Hunter
+//Date: 14 November 2018
+
 #include <iostream>
 #include <cstring>
 #include "media.h"
@@ -9,19 +13,20 @@ using namespace std;
 
 class Movie : public Media {
  public:
-  Movie(char* newtitle, char* newdirector, int* newyear, int* newduration, int* newrating);
+  Movie(char* newtitle, char* newdirector, int* newyear, int* newduration, char* newrating);
   //int getType();
   //char* getTitle();
+  ~Movie();
   virtual char* getDirector();
   // int getYear();
   virtual int getDuration();
-  virtual int getRating();
+  virtual char* getRating();
  private:
   //char* title;
   char* director;
     //int* year;
   int* duration;
-  int* rating;
+  char* rating;
   //int type;
 };
 #endif

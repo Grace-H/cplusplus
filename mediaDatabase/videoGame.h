@@ -1,3 +1,7 @@
+//header file for Game class
+//Author: Grace Hunter
+//Date: 2018
+
 #include <iostream>
 #include <cstring>
 #include "media.h"
@@ -9,12 +13,13 @@ using namespace std;
 
 class Game : public Media {
  public:
-  Game(char* newtitle, int* newyear, char* newpublisher, int* newduration);
+  Game(char* newtitle, int* newyear, char* newpublisher, char* newrating);
+  ~Game();
   virtual char* getPublisher();
-  virtual int getRating();
+  virtual char* getRating();
  private:
   char* publisher;
-  int* rating;
+  char* rating;
   int type; 
 };
 

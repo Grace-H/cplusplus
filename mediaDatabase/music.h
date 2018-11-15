@@ -1,9 +1,14 @@
+//header file for Music class
+//Author: Grace Hunter
+//Date: 14 November 2018
+
 #include <iostream>
 #include <cstring>
 #include "media.h"
 
 #ifndef MUSIC_H
 #define MUSIC_H
+
 using namespace std;
 
 class Music : public Media {

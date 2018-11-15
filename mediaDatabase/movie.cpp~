@@ -4,38 +4,24 @@
 
 using namespace std;
 
-Movie::Movie(char* newtitle, char* newdirector, int* newyear, int* newduration, int* newrating) : Media(newtitle, newyear, 1){
-  //cout << newtitle << *newyear << newartist << newpublisher << *newduration << endl;  
-  //title = newtitle;
-  //cout << "added title" << endl;
+//constructor for Movie, also creates parent Media
+Movie::Movie(char* newtitle, char* newdirector, int* newyear, int* newduration, int* newrating) : Media(newtitle, newyear, 3){
   director = newdirector;
-  //year = newyear;
-  //cout << "added year" << endl;
   duration = newduration;
   rating = newrating;
-  //type = 1;
 }
 
-//int Movie::getType(){
-//return type;
-//}
-
-//char* Movie::getTitle(){
-//return title;
-//}
-
-//int Movie::getYear(){
-//return *year;
-//}
-
+//returns director
 char* Movie::getDirector(){
   return director;
 }
 
+//returns duration
 int Movie::getDuration(){
   return *duration;
 }
 
+//returns rating
 int Movie::getRating(){
   return *rating;
 }
