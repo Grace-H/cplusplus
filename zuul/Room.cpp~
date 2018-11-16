@@ -1,0 +1,19 @@
+#include <iostream>
+#include <cstring>
+#include <map>
+#include "Room.h"
+
+using namespace std;
+
+//constructor
+Room::Room(char* newInfo){
+  info = newInfo;
+}
+
+Room::~Room(){
+  delete [] info;
+}
+
+void Room::addExit(char* exit, Room* target){
+  exits[exit] = target;
+}
