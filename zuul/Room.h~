@@ -6,7 +6,7 @@ using namespace std;
 
 class Room{
  public:
-  Room(char* newInfo);
+  Room(char newInfo[256]);
   ~Room();
   void addExit(char* exit, Room* target);
   void printInfo();

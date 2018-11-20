@@ -1,7 +1,22 @@
 #include <iostream>
 #include <cstring>
+#include "Item.h"
+#include "Room.h"
 
 int main(){
-
+  //descriptions for Rooms
+  //note: will be deleted by Room destructors so do not reference in other code
+  //char* libraryD = new char[256];
+  //strcpy(libraryD, "Hello world");
+  char* east = new char[5];
+  strcpy(east, "EAST");
+  char libraryD[256] = "Hello world";
+  char labD[256] = "hello world";
+  Room* library = new Room(libraryD);
+  Room* lab = new Room(labD);
+  library->addExit(east, lab);
+  library->printInfo();
+  delete lab;
+  delete library;
   return 0;
 }
