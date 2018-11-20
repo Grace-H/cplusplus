@@ -1,7 +1,7 @@
 #include <iostream>
 #include <cstring>
 #include <map>
-#include "room.h"
+#include "Room.h"
 #include <vector>
 #include "Item.h"
 
@@ -23,20 +23,23 @@ void Room::addItem(Item* item){
   inventory.push_back(item);
 }
 
-//void Room::addExit(char* exit, Room* target){
-//exits.insert(pair<exit, target>());
-//}
+void Room::addExit(char* exit, Room* target){
+  exits.insert(pair<char*, Room*>(exit, target));
+  Room* result = exits[exit];
+  //cout << "This is " << exit << ": " << endl;
+  //result->printInfo();
+}
 
 void Room::printInfo(){
   cout << info << endl;
-  //if(exits.empty()){
-  //cout << "There are no exits! You are trapped!" << endl;
-  //}
-  //else{
-  //cout << "You can go: ";
-    //  for(map<char*,Room*>::iterator it = exits.begin(); it != exits.end(); it++){
-    //cout << it->first;
-    //s}
+  if(exits.empty()){
+    cout << "There are no exits! You are trapped!" << endl;
+  }
+  else{
+    cout << "You can go: ";
+    for(map<char*,Room*>::iterator it = exits.begin(); it != exits.end(); it++){
+      cout << it->first << " ";
+    }
     cout << endl;
-    //}
+  }
 }

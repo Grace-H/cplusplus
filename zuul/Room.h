@@ -14,10 +14,10 @@ class Room{
   Room(char* newInfo);
   ~Room();
   void addItem(Item* item);
-  //void addExit(char* exit, Room* target);
+  void addExit(char* exit, Room* target);
   void printInfo();
  private:
-  //map<char*, Room*> exits;
+  map<char*, Room*> exits;
   char* info;
   vector<Item*> inventory;
 };
