@@ -7,11 +7,18 @@ Date: 16 November 2018
 
 #include <iostream>
 #include <cstring>
+#include <cctype>
+
 #include "Item.h"
 #include "Room.h"
 
+void printIntro();
+Room* changeRoom(Room* cRoom, char* direction);
 int main(){
-  //direction char arrays, used for creating exits
+  
+  //GAME SETUP
+
+  //direction char arrays, used for creating exits and moving
   char* north = new char[6];
   strcpy(north, "NORTH");
   char* south = new char[6];
@@ -25,7 +32,18 @@ int main(){
   char* down = new char[6];
   strcpy(down, "DOWN");
 
-
+  //command char arrays, used by user
+  char* go = new char[6];
+  strcpy(go, "GO");
+  char* drop = new char[6];
+  strcpy(drop, "DROP");
+  char* get = new char[6];
+  strcpy(get, "GET");
+  char* help = new char[6];
+  strcpy(help, "HELP");
+  char* quit = new char[6];
+  strcpy(quit, "QUIT");
+  
   //room vector
   vector<Room*>* rooms = new vector<Room*>;
   
@@ -178,7 +196,6 @@ int main(){
 
   senate->addExit(down, capital);
 
-
   //initialize and place 5 items
   //do not reference char* elsewhere, items will delete when they destruct
   char* gavelD = new char[10];
@@ -206,36 +223,123 @@ int main(){
   Item* tulip = new Item(tulipD);
   whiteHouse->addItem(tulip);
 
+  /*
   for(vector<Room*>::iterator it = rooms->begin(); it != rooms->end(); ++it){
       (*it)->printInfo();
   }
-  
-  senate->dropItem(gavel);
-  senate->printInfo();
+  */
+  //senate->dropItem(gavel);
+  //senate->printInfo();
 
-  closet->addItem(gavel);
-  closet->printInfo();
+  //closet->addItem(gavel);
+  // closet->printInfo();
+
+  //GAME PLAY
+
+  bool timing = false; //whether timer is running
+  bool running = true; //whether game is running
+  Room* cRoom = apartment; //current room
+  vector<Item*>* inventory = new vector<Item*>;
+
+  printIntro();
+  cout << endl;
+  cRoom->printInfo();
 
   char* input = new char[256];
-  cin.get(input, 256);
-  cin.get();
   char* str;
-  //strcpy(str, input);
-  cout << "Splitting cstring: " << endl;
-  str = strtok(input, ".,!- ");
-  while(str != NULL){
+  
+  while(running){  
+    
+    cin.get(input, 256);
+    cin.get();
+
+    //make input all caps
+    for(int i = 0; i < strlen(input); i++){
+      input[i] = toupper(input[i]);
+    }
+    
+    //strcpy(str, input);
+    //cout << "Splitting cstring: " << endl;
+    str = strtok(input, ".,!- ");
     cout << str << endl;
+    if(str[2] == '\0'){
+      cout << "char 3 is \0" << endl;
+    }
+    cout << strcmp(go, str) << endl;
+    if(strcmp(go, str) == 0){
+      cout << "You entered 'go'" << endl;
+      str = strtok(NULL, ".,!- ");
+      cout << "You want to go " << str << endl;
+      if(strcmp(str, east) == 0){
+	cRoom = changeRoom(cRoom, east);
+      }
+      else if(strcmp(str, west) == 0){
+	cRoom = changeRoom(cRoom, west);
+      }
+      else if(strcmp(str, north) == 0){
+	cRoom = changeRoom(cRoom, north);
+      }
+      else if(strcmp(str, south) == 0){
+	cRoom = changeRoom(cRoom, south);
+      }
+      else if(strcmp(str, up) == 0){
+	cRoom = changeRoom(cRoom, up);
+      }
+      else if(strcmp(str, down) == 0){
+	cRoom = changeRoom(cRoom, down);
+      }
+      else{
+	cout << "Oops, can't go there." << endl;
+      }
+      cout << endl;
+      cRoom->printInfo();
+    }
+    else if(strcmp(str, quit) == 0){
+      running = false;
+    }
+    //while(str != NULL){
+    //cout << str << endl;
     str = strtok(NULL, ".,!- ");
   }
 
+  //playGame();
+  delete [] input;
+  delete [] str;
   delete [] north;
   delete [] south;
   delete [] west;
   delete [] east;
+  delete [] go;
+  delete [] drop;
+  delete [] help;
+  delete [] get;
+  delete [] quit;
   delete gavel;
   delete mop;
   delete keychain;
   delete sandwich;
   delete tulip;
   return 0;
+
+  //playGame();
+}
+
+Room* changeRoom(Room* cRoom, char* direction){
+  Room* newRoom = cRoom->getRoom(direction);
+  //cout << "this is the room" << endl;
+  //newRoom->printInfo();
+  if(newRoom != NULL){
+    return newRoom;
+    //cRoom->printInfo();
+  }
+  else{
+    cout << "Oops, can't go that way." << endl;
+  }
+}
+
+void printIntro(){  
+  cout << "Welcome to Zuul, a text-based adventure game." << endl;
+  cout << "Your goal: find and move all five items to your room in as little time as possible." << endl;
+  cout << "If you are ever lost or need help, simply type 'LOST'" << endl;
+  cout << "Time starts on your first command." << endl;
 }

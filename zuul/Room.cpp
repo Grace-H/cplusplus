@@ -37,6 +37,18 @@ void Room::dropItem(Item* item){
     }
   }
 }
+
+//return room asscoiated with exit
+Room* Room::getRoom(char* exit){
+  if(exits.count(exit) == 1){
+    return exits[exit];
+  }
+  else {
+    return NULL;
+  }
+}
+
+//add an exit to the room
 void Room::addExit(char* exit, Room* target){
   exits.insert(pair<char*, Room*>(exit, target));
   Room* result = exits[exit];
@@ -44,6 +56,7 @@ void Room::addExit(char* exit, Room* target){
   //result->printInfo();
 }
 
+//print its own description, including info, exits, and items
 void Room::printInfo(){
   cout << info << endl;
   if(exits.empty()){

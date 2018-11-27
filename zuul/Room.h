@@ -15,6 +15,7 @@ class Room{
   ~Room();
   void addItem(Item* item);
   void dropItem(Item* item);
+  Room* getRoom(char* exit);
   void addExit(char* exit, Room* target);
   void printInfo();
  private:
