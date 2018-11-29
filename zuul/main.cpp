@@ -8,12 +8,16 @@ Date: 16 November 2018
 #include <iostream>
 #include <cstring>
 #include <cctype>
-
+#include <typeinfo>
 #include "Item.h"
 #include "Room.h"
 
 void printIntro();
+void getItem(vector<Item*>* inventory, Item* item, Room* cRoom);
+void dropItem(vector<Item*>* inventory, Item* item, Room* cRoom);
+void giveHelp();
 Room* changeRoom(Room* cRoom, char* direction);
+
 int main(){
   
   //GAME SETUP
@@ -39,8 +43,8 @@ int main(){
   strcpy(drop, "DROP");
   char* get = new char[6];
   strcpy(get, "GET");
-  char* help = new char[6];
-  strcpy(help, "HELP");
+  char* lost = new char[6];
+  strcpy(lost, "LOST");
   char* quit = new char[6];
   strcpy(quit, "QUIT");
   
@@ -83,7 +87,7 @@ int main(){
   rooms->push_back(station);
   
   char* f = new char[256];
-  strcpy(f, "You are standing in the conter of the National Mall in Washington, D.C.!");  
+  strcpy(f, "You are standing in the center of the National Mall, the huge greenspace in the midddle of D.C.");  
   Room* natlMall = new Room(f);
   //natlMall->printInfo();
   rooms->push_back(natlMall);
@@ -198,48 +202,44 @@ int main(){
 
   //initialize and place 5 items
   //do not reference char* elsewhere, items will delete when they destruct
+  vector<Item*>* allItems = new vector<Item*>; //vector of all items
+
   char* gavelD = new char[10];
   strcpy(gavelD, "GAVEL");
   Item* gavel = new Item(gavelD);
   senate->addItem(gavel);
-
+  allItems->push_back(gavel);
+  
   char* mopD = new char[10];
   strcpy(mopD, "MOP");
   Item* mop = new Item(mopD);
   closet->addItem(mop);
+  allItems->push_back(mop);
 
   char* keychainD = new char[10];
   strcpy(keychainD, "KEYCHAIN");
   Item* keychain = new Item(keychainD);
   topWashMem->addItem(keychain);
-
+  allItems->push_back(keychain);
+  
   char* sandwichD = new char[10];
   strcpy(sandwichD, "SANDWICH");
   Item* sandwich = new Item(sandwichD);
   subwayNYC->addItem(sandwich);
-
+  allItems->push_back(sandwich);
+  
   char* tulipD = new char[10];
   strcpy(tulipD, "TULIP");
   Item* tulip = new Item(tulipD);
   whiteHouse->addItem(tulip);
-
-  /*
-  for(vector<Room*>::iterator it = rooms->begin(); it != rooms->end(); ++it){
-      (*it)->printInfo();
-  }
-  */
-  //senate->dropItem(gavel);
-  //senate->printInfo();
-
-  //closet->addItem(gavel);
-  // closet->printInfo();
-
+  allItems->push_back(tulip);
+  
   //GAME PLAY
 
   bool timing = false; //whether timer is running
   bool running = true; //whether game is running
   Room* cRoom = apartment; //current room
-  vector<Item*>* inventory = new vector<Item*>;
+  vector<Item*>* inventory = new vector<Item*>; //player's inventory of items they're holding
 
   printIntro();
   cout << endl;
@@ -258,51 +258,89 @@ int main(){
       input[i] = toupper(input[i]);
     }
     
-    //strcpy(str, input);
-    //cout << "Splitting cstring: " << endl;
+    //get first word
     str = strtok(input, ".,!- ");
-    cout << str << endl;
-    if(str[2] == '\0'){
-      cout << "char 3 is \0" << endl;
-    }
-    cout << strcmp(go, str) << endl;
+    //identify first command
+    //GO
     if(strcmp(go, str) == 0){
       cout << "You entered 'go'" << endl;
+      //get direction
       str = strtok(NULL, ".,!- ");
-      cout << "You want to go " << str << endl;
+      //cout << "You want to go " << str << endl;
+      //EAST
       if(strcmp(str, east) == 0){
 	cRoom = changeRoom(cRoom, east);
       }
+      //WEST
       else if(strcmp(str, west) == 0){
 	cRoom = changeRoom(cRoom, west);
       }
+      //NORTH
       else if(strcmp(str, north) == 0){
 	cRoom = changeRoom(cRoom, north);
       }
+      //SOUTH      
       else if(strcmp(str, south) == 0){
 	cRoom = changeRoom(cRoom, south);
       }
+      //UP
       else if(strcmp(str, up) == 0){
 	cRoom = changeRoom(cRoom, up);
       }
+      //DOWN
       else if(strcmp(str, down) == 0){
 	cRoom = changeRoom(cRoom, down);
       }
+      //DNE
       else{
 	cout << "Oops, can't go there." << endl;
       }
       cout << endl;
+      //print info of now-current room
       cRoom->printInfo();
     }
+
+    //QUIT
     else if(strcmp(str, quit) == 0){
       running = false;
     }
-    //while(str != NULL){
-    //cout << str << endl;
-    str = strtok(NULL, ".,!- ");
+
+    //GET
+    else if(strcmp(str, get) == 0){
+      str = strtok(NULL, ".,!- ");
+      for(vector<Item*>::iterator it = allItems->begin(); it != allItems->end(); it++){
+	char* name = (*it)->getName();
+	cout << name << endl;
+	if(strcmp(name, str) == 0){
+	  cout << "You found the item!" << endl;
+	  getItem(inventory, (*it), cRoom);
+	}
+      }
+    }
+
+    //DROP
+    else if(strcmp(str, drop) == 0){
+      str = strtok(NULL, ".,!- ");
+      for(vector<Item*>::iterator it = inventory->begin(); it != inventory->end(); it++){
+	char* name = (*it)->getName();
+	cout << name << endl;
+	if(strcmp(name, str) == 0){
+	  cout << "You found the item!" << endl;
+	  dropItem(inventory, (*it), cRoom);
+	}
+      }
+    }
+
+    //LOST/help
+    else if(strcmp(str, lost) == 0){
+      giveHelp();
+    }
+
+    else{
+      cout << "You want to do what?" << endl;
+    }
   }
 
-  //playGame();
   delete [] input;
   delete [] str;
   delete [] north;
@@ -311,7 +349,7 @@ int main(){
   delete [] east;
   delete [] go;
   delete [] drop;
-  delete [] help;
+  delete [] lost;
   delete [] get;
   delete [] quit;
   delete gavel;
@@ -322,6 +360,31 @@ int main(){
   return 0;
 
   //playGame();
+}
+
+
+void dropItem(vector<Item*>* inventory, Item* item, Room* cRoom){
+  //inventory->erase(item);
+  cout << typeid(item).name() << endl;
+  cRoom->addItem(item);
+  //inventory->erase(item);
+  cout << "Dropped " << item->getName() << "." << endl;
+}
+
+void getItem(vector<Item*>* inventory, Item* item, Room* cRoom){
+  if(cRoom->hasItem(item)){
+    inventory->push_back(item);
+    cRoom->dropItem(item);
+    cout << "Got " << item->getName() << endl;
+  }
+  else{
+    cout << "There is no " << item->getName() << "." << endl;
+  }
+}
+void giveHelp(){
+  cout << "You are lost." << endl;
+  cout << "Your goal is to collect all five items in 3 minutes and take them to your appartment." << endl;
+  cout << "Your command words are: 'GO' 'HELP' 'GET' 'DROP' and 'QUIT'" << endl;
 }
 
 Room* changeRoom(Room* cRoom, char* direction){

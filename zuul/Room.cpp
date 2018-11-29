@@ -17,12 +17,24 @@ Room::Room(char* newInfo){
 
 //destructor
 Room::~Room(){
-  //delete [] info;
+  delete [] info;
 }
 
 //add an item to the room
 void Room::addItem(Item* item){
   inventory.push_back(item);
+}
+
+
+bool Room::hasItem(Item* item){
+  for(vector<Item*>::iterator it = inventory.begin(); it != inventory.end(); it++){
+    if ((*it) == item){
+      return true;
+    }
+    else{
+      return false;
+    }
+  }
 }
 
 //find and remove an item from the room
