@@ -14,6 +14,7 @@ class Room{
   Room(char* newInfo);
   ~Room();
   void addItem(Item* item);
+  int lenInventory();
   bool hasItem(Item* item);
   void dropItem(Item* item);
   Room* getRoom(char* exit);

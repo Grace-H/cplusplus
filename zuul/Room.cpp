@@ -25,6 +25,9 @@ void Room::addItem(Item* item){
   inventory.push_back(item);
 }
 
+int Room::lenInventory(){
+  return inventory.size();
+}
 
 bool Room::hasItem(Item* item){
   for(vector<Item*>::iterator it = inventory.begin(); it != inventory.end(); it++){
