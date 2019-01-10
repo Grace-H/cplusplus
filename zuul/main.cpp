@@ -1,6 +1,6 @@
 /*
 Zuul: A text-based adventure game set on the east coast
-Objective: discover and collect all five items in under 3 minutes
+Objective: discover and drop all five items in appartment
 Author: Grace Hunter
 Date: 16 November 2018
 */
@@ -66,8 +66,6 @@ int main(){
   Room* uber = new Room(b);
   //uber->printInfo();
   rooms->push_back(uber);
-  
-  //uber->addExit(south, apartment);
   
   char* c = new char[256];
   strcpy(c, "You are gazing up at the Washington Memorial. Are you going to ride the elevator to the top?");  
@@ -205,30 +203,35 @@ int main(){
   //do not reference char* elsewhere, items will delete when they destruct
   vector<Item*>* allItems = new vector<Item*>; //vector of all items
 
+  //GAVEL
   char* gavelD = new char[10];
   strcpy(gavelD, "GAVEL");
   Item* gavel = new Item(gavelD);
   senate->addItem(gavel);
   allItems->push_back(gavel);
   
+  //MOP
   char* mopD = new char[10];
   strcpy(mopD, "MOP");
   Item* mop = new Item(mopD);
   closet->addItem(mop);
   allItems->push_back(mop);
 
+  //KEYCHAIN
   char* keychainD = new char[10];
   strcpy(keychainD, "KEYCHAIN");
   Item* keychain = new Item(keychainD);
   topWashMem->addItem(keychain);
   allItems->push_back(keychain);
   
+  //SANDWICH
   char* sandwichD = new char[10];
   strcpy(sandwichD, "SANDWICH");
   Item* sandwich = new Item(sandwichD);
   subwayNYC->addItem(sandwich);
   allItems->push_back(sandwich);
   
+  //TULIP
   char* tulipD = new char[10];
   strcpy(tulipD, "TULIP");
   Item* tulip = new Item(tulipD);
@@ -242,15 +245,19 @@ int main(){
   Room* cRoom = apartment; //current room
   vector<Item*>* inventory = new vector<Item*>; //player's inventory of items they're holding
 
+  //introduce game
   printIntro();
   cout << endl;
   cRoom->printInfo();
 
+  //input processing chars
   char* input = new char[256];
   char* str;
   
+  //while game is being played
   while(running){  
-    //    cout << "252" << endl;
+    
+    //read instruction
     cin.get(input, 256);
     cin.get();
 
@@ -263,12 +270,11 @@ int main(){
     str = strtok(input, ".,!- ");
     //identify first command
     //GO
-    //cout << "265" << endl;
     if(strcmp(go, str) == 0){
-      cout << "You entered 'go'" << endl;
+      
       //get direction
       str = strtok(NULL, ".,!- ");
-      //cout << "You want to go " << str << endl;
+      
       //EAST
       if(str != NULL){
 	if(strcmp(str, east) == 0){
@@ -314,26 +320,24 @@ int main(){
 
     //GET
     else if(strcmp(str, get) == 0){
-      //cout << "308" << endl;
+      //get item
       str = strtok(NULL, ".,!- ");
+      //if second word was entered...
       if(str != NULL){
+	//find item
 	bool found = false;
 	for(vector<Item*>::iterator it = allItems->begin(); it != allItems->end(); it++){
 	  char* name = (*it)->getName();
-	  //cout << name << endl;
 	  if(strcmp(name, str) == 0){
-	    //cout << "You found the item!" << endl;
-	    getItem(inventory, (*it), cRoom);
-	    //cout << "line before" << endl;
+	    getItem(inventory, (*it), cRoom); //pick up item if found
 	    found = true;
 	    break;
-	    //cout << "line after" << endl;
 	  }
 	}
+	//if item doesn't exist
 	if(!found){
 	  cout << "There is no " << str << "." << endl;
 	}
-	//cout << "324" << endl;
       }
       else{
 	cout << "You want to do what?" << endl;
@@ -342,29 +346,33 @@ int main(){
     
     //DROP
     else if(strcmp(str, drop) == 0){
+      //find item user wants
       str = strtok(NULL, ".,!- ");
-      bool found = false;
-      for(vector<Item*>::iterator it = inventory->begin(); it != inventory->end(); it++){
-	char* name = (*it)->getName();
-	//cout << name << endl;
-	if(strcmp(name, str) == 0){
-	  //cout << "You found the item!" << endl;
-	  dropItem(inventory, (*it), cRoom);
-	  //it = inventory->end();
-	  found = true;
-	  break;
+      //if another word was entered...
+      if(str != NULL){
+	bool found = false;
+	for(vector<Item*>::iterator it = inventory->begin(); it != inventory->end(); it++){
+	  char* name = (*it)->getName();
+	  if(strcmp(name, str) == 0){
+	    //when item found, run drop function
+	    dropItem(inventory, (*it), cRoom);
+	    found = true;
+	    break;
+	  }
+	}
+	//if the user wasn't holding item
+	if(!found){
+	  cout << "You have no " << str << "." << endl;
 	}
       }
-      if(!found){
-	cout << "You have no " << str << "." << endl;
+      else{
+	cout << "You want to do what?" << endl;
       }
-      //cout << "339" << endl;
     }
     
     //LOST/help
     else if(strcmp(str, lost) == 0){
       giveHelp();
-      //cout << "339" << endl;
     }
     
     else{
@@ -376,15 +384,24 @@ int main(){
       cout << "Congratulations! You got all the items to your apartment!" << endl;
       running = false;
     }
-    //cout << "347" << endl;
   }
 
+  //delete pointers
+  vector<Room*>::iterator it;
+  while(!rooms->empty()){
+    it = rooms->begin();
+    //    (*it)->printInfo();
+    rooms->erase(it);
+  }
+  delete rooms;
+
   delete [] input;
-  delete [] str;
   delete [] north;
   delete [] south;
   delete [] west;
   delete [] east;
+  delete [] down;
+  delete [] up;
   delete [] go;
   delete [] drop;
   delete [] lost;
@@ -395,12 +412,11 @@ int main(){
   delete keychain;
   delete sandwich;
   delete tulip;
+  
   return 0;
-
-  //playGame();
 }
 
-
+//cheks if there are five items in the apartment, returns true if yes
 bool checkWin(Room* apartment){
   if(apartment->lenInventory() == 5){
     return true;
@@ -410,19 +426,20 @@ bool checkWin(Room* apartment){
   }
 }
 
+//removes an items from player's inventory, adds to current Room
 void dropItem(vector<Item*>* inventory, Item* item, Room* cRoom){
-  //inventory->erase(item);
-  //  cout << typeid(item).name() << endl;
+  //add item to current Room
   cRoom->addItem(item);
+  //find item in player's inventory and erase
   bool found = false;
   for(vector<Item*>::iterator it = inventory->begin(); it != inventory->end(); it++){
     if((*it) == item){
       inventory->erase(it);
-      //it = inventory->end();
       found = true;
       break;
     }
   }
+  //notify user whether action worked or not
   if(found){
     cout << "Dropped " << item->getName() << "." << endl;
   }
@@ -431,6 +448,7 @@ void dropItem(vector<Item*>* inventory, Item* item, Room* cRoom){
   }
 }
 
+//removes Item from Room and adds to player's inventory
 void getItem(vector<Item*>* inventory, Item* item, Room* cRoom){
   if(cRoom->hasItem(item)){
     inventory->push_back(item);
@@ -442,19 +460,20 @@ void getItem(vector<Item*>* inventory, Item* item, Room* cRoom){
   }
 }
 
+//print instructions for game
 void giveHelp(){
   cout << "You are lost." << endl;
-  cout << "Your goal is to collect all five items in 3 minutes and take them to your appartment." << endl;
+  cout << "Your goal is to collect all five items and drop them in your appartment." << endl;
   cout << "Your command words are: 'GO' 'HELP' 'GET' 'DROP' and 'QUIT'" << endl;
 }
 
+//changes current Room based on given direction
 Room* changeRoom(Room* cRoom, char* direction){
+  //find room atached to exit
   Room* newRoom = cRoom->getRoom(direction);
-  //cout << "this is the room" << endl;
-  //newRoom->printInfo();
+  //check if room actually exists at that exit
   if(newRoom != NULL){
     return newRoom;
-    //cRoom->printInfo();
   }
   else{
     cout << "Oops, can't go that way." << endl;
@@ -462,9 +481,10 @@ Room* changeRoom(Room* cRoom, char* direction){
   }
 }
 
+//print openning instructions for the game
 void printIntro(){  
   cout << "Welcome to Zuul, a text-based adventure game." << endl;
-  cout << "Your goal: find and move all five items to your apartment." << endl;
+  cout << "Your goal: find and drop all five items in your apartment." << endl;
   cout << "If you are ever lost or need help, simply type 'LOST'" << endl;
   //cout << "Time starts on your first command." << endl;
 }

@@ -1,3 +1,9 @@
+/*
+ *Header file for Class Room
+ *Author: Grace Hunter
+ *Date: 16 November 2018
+ */
+
 #include <iostream>
 #include <cstring>
 #include <map>

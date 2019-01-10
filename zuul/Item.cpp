@@ -1,3 +1,10 @@
+/*
+ *Class Item: part of projects Zuul
+ *Returns its name
+ *Author: Grace Hunter
+ *Date: 16 November 2018
+ */
+
 #include <iostream>
 #include <cstring>
 #include "Item.h"
