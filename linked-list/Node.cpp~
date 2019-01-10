@@ -1,0 +1,22 @@
+#include <cstring>
+#include <iostream>
+#include "Node.h"
+
+using namespace std;
+
+Node::Node(){
+  next = NULL;
+  num = NULL;
+}
+
+Node::Node(int newnum, Node* newnext){
+  next = newnext;
+  num = newnum;
+}
+
+Node::~Node(){
+}
+
+Node::display(){
+  cout << num << endl;
+}
