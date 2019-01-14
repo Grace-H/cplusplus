@@ -1,0 +1,8 @@
+#include <iostream> //print things in and out to the console
+
+using namespace std;
+
+int main(){
+  cout << "Output"; //adds quote to whatever is in cout
+  return 0; //correct response, return something else in case of error
+}
