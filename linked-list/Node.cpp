@@ -17,7 +17,7 @@ Node::~Node(){
 }
 
 void Node::display(){
-  cout << num << endl;
+  cout << num;
 }
 
 int Node::getValue(){
