@@ -2,6 +2,7 @@
 #include <iostream>
 #include "Node.h"
 
+void deleteList(Node** head);
 int getNth(Node* current, int index);
 int lenList(Node* head, int total);
 int count(Node* current, int searchFor, int total);
@@ -10,6 +11,8 @@ void findLowest(Node* current, int num1, int num2);
 void print(Node* start);
 void addNode(Node* &head, Node* current, int num);
 Node* abrevList(Node* &head);
+
+using namespace std;
 
 int main(){
   Node* head = NULL;
@@ -21,7 +24,7 @@ int main(){
   addNode(head, head, 29);
   addNode(head, head, 29);
   addNode(head, head, 12);
-  addNode(head, head, 220);
+  addNode(head, head, 47);
 
   print(head);
 
@@ -39,8 +42,21 @@ int main(){
 
   //len list
   cout << "len list: " << lenList(head, 0) << endl;
-  cout << getNth(head, 4);
+  cout << getNth(head, 4) << endl;
+  deleteList(&head);
+  cout << "len list: " << lenList(head, 0) << endl;
   return 0;
+}
+
+void deleteList(Node** head){
+  if((*head) == NULL){
+    return;
+  }
+  Node* next = (*head)->getNext();
+  deleteList(&next);
+  cout << "Deleting " << (*head)->getValue() << endl;
+  delete *head;
+  cout << "Deleted" << endl;
 }
 
 int getNth(Node* head, int index){
@@ -58,12 +74,20 @@ int getNth(Node* head, int index){
 }
 
 int lenList(Node* head, int total){
-  total ++;
-  if(head->getNext() != NULL){
-    lenList(head->getNext(), total);
+  cout << total << endl;
+  if(head == NULL){
+    cout << "head == NULL" << endl;
+    return total;
+  }
+  else if(head->getNext() == NULL){
+    cout << "head->getNext() == NULL)" << endl;
+    total++;
+    return total;
   }
   else{
-    return total;
+    cout << "recursion" << endl;
+    total++;
+    lenList(head->getNext(), total);
   }
 }
 
