@@ -10,13 +10,13 @@
 
 using namespace std;
 
-int main(){
+int main() {
   bool still_playing = true;
-  while (still_playing){
+  while (still_playing) {
 
     //generate a random number
     srand(time(NULL));
-    int num = rand()%100;
+    int num = rand() % 100;
     
     int guesses = 0; //number of times the user has tried to guess
     bool won = false; //whether the user has guessed the number yet
@@ -27,19 +27,19 @@ int main(){
     cin >> input;
 
     //while the user hasn't guessed the number
-    while (!won){
+    while (!won) {
       guesses++; //increment guesses
 
       //tell user how their guess compares to number
-      if (input < num){
+      if (input < num) {
 	cout << "Too low! Try again:" << endl;
 	cin >> input;
       }
-      else if (input > num){
+      else if (input > num) {
 	cout << "Too high! Try again:" << endl;
 	cin >> input;
       }
-      else if (input == num){
+      else if (input == num) {
 	won = true;
 	cout << "You guessed my number in " << guesses << " guesses!" << endl;
       }
@@ -49,7 +49,7 @@ int main(){
     cout << "Would you like to play again? 'y' or 'n'" << endl;
     char play_again = 'a';
     cin >> play_again;
-    if (play_again == 'n'){
+    if (play_again == 'n') {
       still_playing = false;
     }
   }

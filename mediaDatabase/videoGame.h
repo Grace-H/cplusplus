@@ -1,6 +1,6 @@
-//header file for Game class
-//Author: Grace Hunter
-//Date: 2018
+// header file for Game class
+// Author: Grace Hunter
+// Date: 2018
 
 #include <iostream>
 #include <cstring>

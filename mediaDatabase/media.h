@@ -1,6 +1,6 @@
-//header file for Media class
-//Author: Grace Hunter
-//Date: 14 November 2018
+// header file for Media class
+// Author: Grace Hunter
+// Date: 14 November 2018
 
 #include <iostream>
 #include <cstring>
@@ -10,7 +10,7 @@
 
 using namespace std;
 
-class Media{
+class Media {
  public:
   Media(char* newtitle, int* newyear, int newtype);
   virtual ~Media();

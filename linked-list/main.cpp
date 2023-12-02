@@ -1,3 +1,6 @@
+/*
+ * main.cpp - Linked list implementation
+ */
 #include <cstring>
 #include <iostream>
 #include "Node.h"
@@ -14,7 +17,7 @@ Node* abrevList(Node* &head);
 
 using namespace std;
 
-int main(){
+int main() {
   Node* head = NULL;
   addNode(head, head, 220);
   addNode(head, head, 23);
@@ -48,85 +51,74 @@ int main(){
   return 0;
 }
 
-void deleteList(Node** head){
-  if((*head) == NULL){
+void deleteList(Node** head) {
+  if ((*head) == NULL) {
     return;
   }
   Node* next = (*head)->getNext();
   deleteList(&next);
-  cout << "Deleting " << (*head)->getValue() << endl;
   delete *head;
-  cout << "Deleted" << endl;
 }
 
-int getNth(Node* head, int index){
-  if(index <= lenList(head, 0) - 1){
+int getNth (Node* head, int index) {
+  if (index <= lenList(head, 0) - 1) {
     int count = 0;
-    while(count < index){
+    while (count < index) {
       head = head->getNext();
       count++;
     }
     return head->getValue();
   }
-  else{
-    cout << "doesn't exist" << endl;
+  else {
   } 
 }
 
-int lenList(Node* head, int total){
+int lenList(Node* head, int total) {
   cout << total << endl;
-  if(head == NULL){
-    cout << "head == NULL" << endl;
+  if (head == NULL) {
     return total;
   }
-  else if(head->getNext() == NULL){
-    cout << "head->getNext() == NULL)" << endl;
+  else if (head->getNext() == NULL) {
     total++;
     return total;
   }
-  else{
-    cout << "recursion" << endl;
+  else {
     total++;
     lenList(head->getNext(), total);
   }
 }
 
 //return number of times an int appears in list
-int count(Node* current, int searchFor, int total){
-  if(current->getValue() == searchFor){
+int count(Node* current, int searchFor, int total) {
+  if (current->getValue() == searchFor) {
     total++;
   }
-  if(current->getNext() != NULL){
+  if (current->getNext() != NULL) {
     count(current->getNext(), searchFor, total);
   }
-  else{
+  else {
     return total;
   }
 }
 
-/*
-void sortList(Node* &head){
-  //if head is more than next
-  //swap, run sort list again
-  //move to next
-  */
-
 //creates new list using first and last nodes of given list, returns head of new list
-Node* abrevList(Node* &head){
+Node* abrevList(Node* &head) {
   Node* newHead = new Node();
   newHead->setValue(head->getValue());
   Node* current = head;
-  while(current->getNext() != NULL){
+
+  while (current->getNext() != NULL) {
     current = current->getNext();
   }
   Node* last = new Node();
   last->setValue(current->getValue());
   newHead->setNext(last);
+
   return newHead;
 }
 
 //returns 2 highest values in list
-void findHighest(Node* current, int num1, int num2){
+void findHighest(Node* current, int num1, int num2) {
   if(current != NULL){
     if(current->getValue() != num1 && current->getValue() != num2 && (current->getValue() > num1 || current->getValue() > num2)){
       if(num1 <= num2){
@@ -144,26 +136,26 @@ void findHighest(Node* current, int num1, int num2){
 }
 
 //returns two lowest values is list
-void findLowest(Node* current, int num1, int num2){
-  if(current != NULL){
-    if(current->getValue() != num1 && current->getValue() != num2 && (current->getValue() < num1 || current->getValue() < num2)){
-      if(num1 <= num2){
+void findLowest(Node* current, int num1, int num2) {
+  if (current != NULL) {
+    if (current->getValue() != num1 && current->getValue() != num2 && (current->getValue() < num1 || current->getValue() < num2)) {
+      if (num1 <= num2) {
 	num2 = current->getValue();
       }
-      else{
+      else {
 	num1 = current->getValue();
       }
     }
     findLowest(current->getNext(), num1, num2);
   }
-  else{
+  else {
     cout << "The two lowest values are: " << num1 << "," << num2 << endl;
   }
 }
 
 //prints list in one line like this: 1,2,3,4
-void print(Node* start){
-  if(start != NULL && start->getNext() != NULL){
+void print(Node* start) {
+  if (start != NULL && start->getNext() != NULL) {
     start->display();
     cout << ",";
     print(start->getNext());
@@ -175,14 +167,14 @@ void print(Node* start){
 }
 
 //adds node with num as value at end of list
-void addNode(Node* &head, Node* current, int num){
-  if(head == NULL){
+void addNode(Node* &head, Node* current, int num) {
+  if (head == NULL) {
     head = new Node(num, NULL);
   }
-  else if(current->getNext() == NULL){
+  else if (current->getNext() == NULL) {
     current->setNext(new Node(num, NULL));
   }
-  else{
+  else {
     addNode(head, current->getNext(), num);
   }
 }

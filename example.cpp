@@ -1,18 +1,21 @@
+/*
+ * example.cpp - illustrate some introductory C++ concepts & syntax
+ */
 #include <iostream> //print things in and out to the console
 
 using namespace std;
 
-int main(){
+int main() {
   int input = 0;
   cin >> input;
-  if(input == 3){
+  if (input == 3) {
     cout << "You entered a 3!" << endl;
   }
-  while(input <= 5){
+  while (input <= 5) {
     cout << input << endl;
     input++;
-  };
-  for(int input = 0; input <= 5; input++){
+  }
+  for (int input = 0; input <= 5; input++) {
     cout << input << endl;
   }
   cout << input << endl;
